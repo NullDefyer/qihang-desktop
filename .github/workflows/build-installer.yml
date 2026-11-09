@@ -12,8 +12,8 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.1.0
         with:
           node-version: 22
           cache: npm
@@ -22,7 +22,7 @@ jobs:
       - run: npm test -- --test-concurrency=1
       - run: npm run build:installer
       - run: npm run test:sites
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7.0.2
         with:
           name: qihang-windows-installer
           path: |
