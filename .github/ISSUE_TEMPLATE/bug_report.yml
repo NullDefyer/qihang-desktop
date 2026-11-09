@@ -1,0 +1,23 @@
+name: 问题反馈
+description: 报告可复现的问题，请勿上传密码、私钥或真实服务器信息。
+title: "[Bug] "
+body:
+  - type: input
+    id: version
+    attributes:
+      label: 启航版本与 Windows 版本
+      placeholder: "例如：0.1.5 / Windows 11"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 复现步骤
+      description: 请使用脱敏测试数据，写明预期行为与实际行为。
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 脱敏截图或日志
+      description: 请遮盖地址、账号、本机路径、密码与令牌。

@@ -1,0 +1,143 @@
+/* The approved bridge concept uses layered instrument frames, not simple
+   cyan borders. Vector trim is independent of the actual controls and panels. */
+.hud-frame { display: none; position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.home-section-icon { display: none; }
+[data-skin="bridge"] {
+  --bridge-rail: clamp(176px, 14.4vw, 228px);
+  --primary: #49dcff;
+  --primary-hover: #a1f2ff;
+  --secondary-accent: #478fff;
+  --border-strong: #356b95;
+  --panel-fill: rgba(5, 18, 34, 0.9);
+}
+[data-skin="bridge"] .hud-frame { display: block; }
+.hud-frame svg { display: block; overflow: visible; }
+.hud-frame path { fill: none; stroke-linejoin: bevel; stroke-linecap: square; }
+.hud-frame-outline { stroke: #3380bb; stroke-width: 1; }
+.hud-frame-inset { stroke: #2d507a; stroke-width: 0.7; opacity: 0.65; }
+.hud-frame-bloom { stroke: var(--primary); stroke-width: 5; opacity: 0.28; filter: blur(3px); }
+.hud-frame-corners { stroke: #8ceaff; stroke-width: 1.7; filter: drop-shadow(0 0 4px #00beff); }
+.hud-frame-traces { stroke: #438fff; stroke-width: 1.2; filter: drop-shadow(0 0 3px #287bff); }
+
+/* Frame the window and anchor the brand inside the navigation tower, as in
+   the concept. Keep the original titlebar height and native window actions. */
+[data-skin="bridge"] .hud-frame--shell { position: fixed; inset: 8px; z-index: 45; }
+[data-skin="bridge"] .hud-frame--shell .hud-frame-inset { stroke: #3386df; opacity: 0.8; }
+[data-skin="bridge"] .app-body { grid-template-columns: var(--bridge-rail) minmax(0, 1fr); padding: 0 12px 12px 0; }
+[data-skin="bridge"] .titlebar { width: calc(100% - var(--bridge-rail)); margin-left: var(--bridge-rail); background: transparent; box-shadow: none; border: 0; justify-content: flex-end; padding-right: 12px; }
+[data-skin="bridge"] .titlebar .brand {
+  position: fixed;
+  top: 23px;
+  left: 27px;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  gap: 3px 10px;
+  width: calc(var(--bridge-rail) - 45px);
+  height: 65px;
+  padding: 0;
+  align-content: center;
+}
+[data-skin="bridge"] .brand > svg { grid-column: 1; grid-row: 1 / span 2; width: 42px; height: 42px; color: #dff5ff; filter: drop-shadow(0 0 8px #279de77a); }
+[data-skin="bridge"] .brand strong { grid-column: 2; font-size: 25px; letter-spacing: 0.04em; }
+[data-skin="bridge"] .brand > span { display: none; }
+[data-skin="bridge"] .brand small { display: block; grid-column: 2; font-size: 8px; line-height: 1.5; white-space: nowrap; color: #a8c6e1; }
+[data-skin="bridge"] .sidebar { position: relative; border: 0; background: linear-gradient(180deg, #061429b8, #06172b66 72%, #061327e8); margin: 0 11px 0 13px; }
+[data-skin="bridge"] .sidebar > .hud-frame { top: -49px; bottom: 1px; }
+[data-skin="bridge"] .nav-list { padding-top: 73px; }
+[data-skin="bridge"] .nav-item { width: calc(100% - 12px); margin: 0 6px 10px; height: clamp(44px, 6.9vh, 64px); padding: 0 18px; gap: 16px; border: 0; border-radius: 0; color: #bed2e8; font-size: 16px; background: none; }
+[data-skin="bridge"] .nav-item svg:not(.hud-frame svg) { width: 26px; height: 26px; }
+[data-skin="bridge"] .nav-item:not(.nav-item--active) .hud-frame { display: none; }
+[data-skin="bridge"] .nav-item--active { background: linear-gradient(90deg, #064f74e8, #0b315694 65%, #0c233dba); box-shadow: inset 5px 0 #16dafa, 0 0 24px #0095e532; color: #f1fbff; text-shadow: 0 0 6px #50c9ff42; }
+[data-skin="bridge"] .nav-item--active svg:not(.hud-frame svg) { color: #b5f6ff; filter: drop-shadow(0 0 6px #11cbff85); }
+[data-skin="bridge"] .nav-item:focus-visible { outline-offset: -4px; }
+[data-skin="bridge"] .sidebar-status { padding-left: 22px; padding-bottom: 21px; }
+[data-skin="bridge"] .theme-trigger { background: #07182bdb; border-color: #285273; height: 31px; font-size: 12px; }
+
+[data-skin="bridge"] .home-page {
+  --home-gap: clamp(10px, 1.5vh, 15px);
+  padding: 4px 5px 4px 8px;
+  grid-template-columns: repeat(2, minmax(0, 0.95fr)) repeat(2, minmax(0, 1fr)) repeat(2, minmax(0, 1.1fr));
+  grid-template-rows: auto minmax(0, 0.8fr) minmax(0, 1.2fr) auto;
+}
+[data-skin="bridge"] .home-heading { min-height: 42px; padding: 0 21px; }
+[data-skin="bridge"] .home-heading h1 { font-size: clamp(22px, 2.5vw, 34px); letter-spacing: 0.03em; }
+[data-skin="bridge"] .home-heading p { display: none; }
+[data-skin="bridge"] .home-search { margin-right: auto; margin-left: clamp(20px, 4vw, 75px); width: min(58%, 500px); border-radius: 10px; background: linear-gradient(180deg, #102238c4, #07182bd9); min-height: 38px; }
+[data-skin="bridge"] .home-page .home-card { border: 0; padding: clamp(12px, 1.7vh, 20px) clamp(13px, 1.5vw, 23px); overflow: visible; }
+[data-skin="bridge"] .home-card::before { display: none; }
+[data-skin="bridge"] .home-card::after { background: linear-gradient(135deg, #11253cdb, var(--panel-fill) 45%, #07182be6); }
+[data-skin="bridge"] .home-page .home-card-heading { min-height: 30px; margin-bottom: 12px; }
+[data-skin="bridge"] .home-page .home-card-heading h2 { display: flex; align-items: center; gap: 11px; font-size: clamp(15px, 1.4vw, 20px); letter-spacing: 0.02em; }
+[data-skin="bridge"] .home-section-icon { display: inline-block; width: 23px; height: 23px; flex-shrink: 0; color: #85ddff; filter: drop-shadow(0 0 4px #0a9dec80); }
+[data-skin="bridge"] .home-card-heading > .quiet-button { min-height: 29px; padding: 3px 10px; border: 1px solid #2e5c7e; border-radius: 5px; background: linear-gradient(180deg, #143654ba, #081c33d9); color: #8ce5ff; box-shadow: inset 0 1px #7bd4ff12; }
+[data-skin="bridge"] .home-page .home-status { justify-content: center; padding: 3px 0; font-size: 11px; }
+
+/* Faceted shortcut keys: generous icon scale, nested edge lines and a bright
+   lower edge. The frame is a sibling of the actual button, so clicks work. */
+[data-skin="bridge"] .home-page .quick-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); align-content: start; gap: 12px; padding: 2px 0; }
+[data-skin="bridge"] .home-page :is(.quick-item > button:first-child, .quick-add) { position: relative; min-height: clamp(82px, 18vh, 158px); height: 100%; border: 0; border-radius: 0; gap: 17px; padding: 16px 6px; background: linear-gradient(150deg, #1b3655b5 0%, #10243dc2 60%, #123d6885 100%); clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px); }
+[data-skin="bridge"] .home-page :is(.quick-item > button:first-child > svg, .quick-add > svg) { width: 45px; height: 45px; color: #83e5ff; filter: drop-shadow(0 0 6px #00caff80); }
+[data-skin="bridge"] .quick-item span,
+[data-skin="bridge"] .quick-add span { font-size: 13px; color: #e2f0ff; }
+[data-skin="bridge"] .quick-edit { z-index: 3; top: 8px; right: 8px; background: transparent; opacity: 0; }
+[data-skin="bridge"] .quick-item:hover .quick-edit,
+[data-skin="bridge"] .quick-item:focus-within .quick-edit { opacity: 1; }
+[data-skin="bridge"] .quick-item > .hud-frame { filter: drop-shadow(0 3px 5px #0875c866); }
+[data-skin="bridge"] .hud-frame--tile .hud-frame-bloom { opacity: 0.18; }
+[data-skin="bridge"] .home-page .todo-row { align-items: center; gap: 15px; padding: 10px 0; }
+[data-skin="bridge"] .todo-row > input { appearance: none; width: 19px; height: 19px; flex-shrink: 0; border: 1.5px solid #8eaccb; border-radius: 4px; margin: 0; background: #07172a; box-shadow: inset 0 0 0 2px #19334a; cursor: pointer; }
+[data-skin="bridge"] .todo-row > input:checked { appearance: auto; accent-color: var(--primary); }
+[data-skin="bridge"] .todo-row > button { font-size: 14px; color: #e3efff; }
+
+/* Nested notes carry the soft glass gradient of the reference, while all
+   note text remains real selectable application content. */
+[data-skin="bridge"] .home-page .home-note-list > button { padding: 13px 12px; margin-bottom: 9px; border-color: #315479; border-radius: 13px; background: linear-gradient(125deg, #22344cb8, #10243bb5 55%, #0d1e33cc); box-shadow: inset 0 1px #97c7ff12, 0 3px 9px #0003; }
+[data-skin="bridge"] .home-note-list > button > svg:first-child { color: #b994ff; }
+[data-skin="bridge"] .home-note-list > button:nth-child(2) > svg:first-child { color: #57bcff; }
+[data-skin="bridge"] .home-note-list > button:nth-child(3) > svg:first-child { color: #ffc46b; }
+[data-skin="bridge"] .home-note-list strong { font-size: 14px; }
+[data-skin="bridge"] .home-note-list small { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.6; font-size: 12px; }
+[data-skin="bridge"] .translation-card textarea { background: linear-gradient(145deg, #122b40e8, #0b1d32e8); border-color: #416284; box-shadow: inset 0 1px 4px #020a1566; }
+[data-skin="bridge"] .home-page .translation-card .home-card-heading { margin-bottom: 0; }
+[data-skin="bridge"] .translation-toolbar select { border-color: #3a6688; background-color: #10283d; }
+[data-skin="bridge"] .home-page .translation-actions .button { min-width: 105px; min-height: 32px; }
+[data-skin="bridge"] .button--primary { background: linear-gradient(#6deaff, #08bfe7 65%, #09aedf); border-color: #75efff; box-shadow: inset 0 1px 3px #c8ffffaa, 0 0 13px #04a6ea70; }
+[data-skin="bridge"] .home-page .countdown-item { border-radius: 3px 12px 3px 12px; background: linear-gradient(120deg, #0b1c31db, #071428e6); box-shadow: inset 0 0 0 2px #0937506b, inset 0 0 0 4px #0a182d; }
+[data-skin="bridge"] .home-page .countdown-item:first-child { border-color: #59dfff; box-shadow: inset 0 0 0 3px #003e5960, 0 0 8px #00c9ff25; }
+[data-skin="bridge"] .digital-clock-art { filter: drop-shadow(0 0 4px #00b7ff60); }
+
+@media (max-width: 1250px) {
+  [data-skin="bridge"] .home-page { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto minmax(0, 0.85fr) minmax(0, 0.8fr) minmax(0, 1fr) auto; }
+  [data-skin="bridge"] .home-heading { padding-inline: 9px; }
+  [data-skin="bridge"] .home-search { margin-left: auto; margin-right: 0; width: 52%; }
+  [data-skin="bridge"] .home-page .home-card-heading h2 { gap: 6px; font-size: 14px; }
+  [data-skin="bridge"] .home-section-icon { width: 18px; height: 18px; }
+  [data-skin="bridge"] .home-page .home-card { padding: 12px; }
+}
+@media (max-height: 720px) {
+  [data-skin="bridge"] .nav-list { padding-top: 56px; }
+  [data-skin="bridge"] .nav-item { height: 40px; margin-bottom: 6px; }
+  [data-skin="bridge"] .home-page { --home-gap: 8px; }
+  [data-skin="bridge"] .home-heading { min-height: 32px; }
+  [data-skin="bridge"] .home-page .home-card { padding: 9px 12px; }
+  [data-skin="bridge"] .home-page .home-card-heading { min-height: 26px; margin-bottom: 6px; }
+  [data-skin="bridge"] .home-page .home-card-heading h2 { font-size: 14px; gap: 6px; }
+  [data-skin="bridge"] .home-section-icon { width: 18px; height: 18px; }
+  [data-skin="bridge"] .home-page .todo-row { padding-block: 7px; }
+  [data-skin="bridge"] .home-page .home-note-list > button { padding: 8px; }
+  [data-skin="bridge"] .home-page :is(.quick-item > button:first-child, .quick-add) { min-height: 72px; gap: 6px; padding: 10px 6px; }
+  [data-skin="bridge"] .home-page :is(.quick-item > button:first-child > svg, .quick-add > svg) { width: 28px; height: 28px; }
+}
+@media (max-width: 1000px) {
+  [data-skin="bridge"] { --bridge-rail: 148px; }
+  [data-skin="bridge"] .titlebar .brand { left: 22px; width: 122px; grid-template-columns: 34px 1fr; gap: 2px 5px; }
+  [data-skin="bridge"] .brand > svg { width: 32px; height: 32px; }
+  [data-skin="bridge"] .brand strong { font-size: 22px; }
+  [data-skin="bridge"] .brand small { grid-column: 1 / -1; font-size: 8px; }
+  [data-skin="bridge"] .nav-item { justify-content: flex-start; padding: 0 12px; gap: 10px; font-size: 14px; }
+  [data-skin="bridge"] .nav-item span { display: block; }
+  [data-skin="bridge"] .sidebar-status { display: block; padding-left: 12px; }
+  [data-skin="bridge"] .home-page .home-card-heading h2 { font-size: 13px; gap: 5px; }
+  [data-skin="bridge"] .translation-card .translation-toolbar { flex-basis: 124px; }
+}

@@ -1,0 +1,80 @@
+{
+  "name": "qihang-desktop",
+  "version": "0.1.5",
+  "private": true,
+  "description": "启航：Windows 本地服务管理、远程只读监控、独立笔记与日常工具工作台",
+  "license": "MIT",
+  "author": "Qihang contributors",
+  "repository": { "type": "git", "url": "git+https://github.com/NullDefyer/qihang-desktop.git" },
+  "homepage": "https://github.com/NullDefyer/qihang-desktop#readme",
+  "bugs": { "url": "https://github.com/NullDefyer/qihang-desktop/issues" },
+  "engines": { "node": ">=22.12.0" },
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite",
+    "desktop": "concurrently -k \"vite\" \"wait-on http://localhost:5173 && electron .\"",
+    "build": "vite build && node scripts/prepare-sites-build.mjs",
+    "build:desktop": "npm run build:installer",
+    "build:installer": "npm run build && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-installer.ps1",
+    "build:portable": "npm run build && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-portable.ps1",
+    "test": "node --test tests/public-source.test.mjs tests/github.test.mjs tests/remote-monitor.test.cjs tests/todos.test.mjs tests/process-manager.test.cjs tests/model.test.mjs tests/remote-manager.test.cjs tests/personal-manager.test.cjs tests/tools.test.mjs tests/storage-translation.test.cjs tests/command-cache.test.cjs tests/uninstall-data.test.cjs",
+    "preview": "vite preview",
+    "check:public": "node scripts/check-public-source.mjs",
+    "export:source": "node scripts/export-source.mjs",
+    "test:sites": "node --test tests/sites-worker.test.mjs"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "@vitejs/plugin-react": "5.0.4",
+    "mysql2": "^3.24.6",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "redis": "^6.3.1",
+    "simple-icons": "^16.36.0",
+    "ssh2": "^1.17.0",
+    "vite": "6.4.2"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6",
+    "electron": "^45.1.0",
+    "electron-builder": "^26.18.0",
+    "wait-on": "^9.5.1"
+  },
+  "build": {
+    "appId": "com.qihang.desktop",
+    "productName": "启航",
+    "executableName": "Qihang",
+    "asar": true,
+    "files": [
+      "dist/client/**/*",
+      "electron/**/*",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": "nsis",
+      "signAndEditExecutable": false,
+      "artifactName": "Qihang-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "packElevateHelper": true,
+      "perMachine": false,
+      "deleteAppDataOnUninstall": false,
+      "installerLanguages": [
+        "zh_CN"
+      ],
+      "language": "2052",
+      "include": "build/installer.nsh",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}

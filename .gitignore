@@ -1,0 +1,50 @@
+# Dependencies and generated application/installers
+node_modules/
+dist/
+release/
+coverage/
+build/installer-files.nsh
+*.tsbuildinfo
+
+# Local runtime data, backups and credentials (including custom nested copies)
+data/
+backups/
+qihang-state.json
+remote-servers.json
+storage-locations.json
+.qihang-all-users
+.env
+.env.*
+!.env.example
+.npmrc
+*.pem
+*.key
+*.p12
+*.pfx
+*.ppk
+id_rsa*
+id_ed25519*
+*.log
+*.dmp
+*.zip
+
+# Local development / conversation evidence; retain on disk, never publish
+.local-notes/
+.codex/
+.agents/
+.aws/
+.vscode/
+.idea/
+qa/
+AGENTS.md
+IMPLEMENTATION-PLAN.md
+REMOTE-MONITOR-QA.md
+design-qa.md
+*ui-output.txt
+*ui-errors.txt
+.DS_Store
+Thumbs.db
+
+# Keep only the neutral hosting input required by npm run build
+.openai/*
+!.openai/hosting.json

@@ -1,0 +1,298 @@
+/* Sci-fi skins share semantic tokens; classic light/dark remain in styles.css.
+   Background art is separate from opaque editor surfaces for readable logs. */
+:root[data-visual="sci-fi"] {
+  --bg: #050d1b;
+  --bg-deep: #061223;
+  --surface: #0a192b;
+  --surface-strong: #10253b;
+  --surface-hover: #14344b;
+  --surface-soft: #0b2034;
+  --border: #25445c;
+  --border-strong: #3f6a83;
+  --text: #edf7ff;
+  --text-secondary: #b0c9df;
+  --text-muted: #92abc0;
+  --primary: #36dafa;
+  --primary-hover: #85efff;
+  --primary-soft: #123449;
+  --info: #67d5ff;
+  --secondary-accent: #4979ff;
+  --primary-ink: #041624;
+  --panel-fill: rgba(5, 18, 34, 0.87);
+  --panel-radius: 4px 16px 4px 16px;
+  --scene: url("./assets/deep-space.png") center / cover;
+  --scene-grid: none;
+  --shadow: 0 18px 48px #0008;
+  --accent-glow: color-mix(in srgb, var(--primary) 22%, transparent);
+}
+
+:root[data-skin="cyber"] {
+  --bg: #100b20;
+  --bg-deep: #130d25;
+  --surface: #1a1230;
+  --surface-strong: #251c3b;
+  --surface-hover: #322044;
+  --surface-soft: #211631;
+  --border: #50345f;
+  --border-strong: #8e5d97;
+  --text-secondary: #d0bddf;
+  --text-muted: #b6a3c6;
+  --primary: #ff78cf;
+  --primary-hover: #ffb1e4;
+  --primary-soft: #3b1e3e;
+  --secondary-accent: #67dfff;
+  --primary-ink: #230a22;
+  --panel-fill: rgba(19, 10, 35, 0.9);
+  --panel-radius: 0;
+  --scene: radial-gradient(ellipse at 0% 90%, #8b1e8e99, transparent 55%), radial-gradient(ellipse at 100% 0%, #126588aa, transparent 50%), linear-gradient(130deg, #140b20, #170b32);
+  --scene-grid: repeating-linear-gradient(0deg, transparent 0 47px, #ff78cf14 48px), repeating-linear-gradient(90deg, transparent 0 47px, #67dfff14 48px);
+}
+
+:root[data-skin="aurora"] {
+  --bg: #041a1c;
+  --bg-deep: #051c20;
+  --surface: #0a2529;
+  --surface-strong: #10343b;
+  --surface-hover: #174448;
+  --surface-soft: #0c2b30;
+  --border: #2d5559;
+  --border-strong: #4e7c7c;
+  --text-secondary: #b4d6d1;
+  --text-muted: #98bcb7;
+  --primary: #64efc4;
+  --primary-hover: #acffe5;
+  --primary-soft: #113b35;
+  --secondary-accent: #50cbe7;
+  --primary-ink: #042b23;
+  --panel-fill: rgba(4, 28, 32, 0.84);
+  --panel-radius: 18px;
+  --scene: radial-gradient(ellipse at 20% 0%, #10c89b77, transparent 55%), radial-gradient(ellipse at 100% 50%, #0a869e88, transparent 60%), linear-gradient(120deg, #03181c, #082932);
+}
+
+:root[data-skin="mars"] {
+  --bg: #1a1410;
+  --bg-deep: #1d1814;
+  --surface: #27201b;
+  --surface-strong: #342a21;
+  --surface-hover: #413228;
+  --surface-soft: #2c241d;
+  --border: #584535;
+  --border-strong: #856748;
+  --text: #fff2e5;
+  --text-secondary: #d5c1ab;
+  --text-muted: #bda58e;
+  --primary: #ffb15c;
+  --primary-hover: #ffcf95;
+  --primary-soft: #45301d;
+  --secondary-accent: #ed7754;
+  --primary-ink: #321c08;
+  --panel-fill: rgba(30, 24, 18, 0.94);
+  --panel-radius: 2px;
+  --scene: radial-gradient(ellipse at 100% 100%, #b45b2b66, transparent 60%), linear-gradient(150deg, #171412, #2b1e17);
+  --scene-grid: repeating-linear-gradient(135deg, #ffb15c08 0 1px, transparent 1px 12px);
+}
+
+:root[data-skin="lunar"] {
+  --bg: #edf5fc;
+  --bg-deep: #f6faff;
+  --surface: #ffffff;
+  --surface-strong: #e7f0f8;
+  --surface-hover: #dcecf8;
+  --surface-soft: #eef5fb;
+  --border: #bfd2e2;
+  --border-strong: #829fb8;
+  --text: #142c40;
+  --text-secondary: #3a5970;
+  --text-muted: #506c82;
+  --primary: #076ba1;
+  --primary-hover: #004e7b;
+  --primary-soft: #dceefa;
+  --secondary-accent: #4d83c8;
+  --primary-ink: #ffffff;
+  --panel-fill: rgba(255, 255, 255, 0.94);
+  --panel-radius: 10px;
+  --scene: radial-gradient(ellipse at 100% 0%, #b8dcf8, transparent 65%), linear-gradient(120deg, #f6faff, #e4eff9);
+  --scene-grid: repeating-linear-gradient(0deg, transparent 0 39px, #467ba318 40px), repeating-linear-gradient(90deg, transparent 0 39px, #467ba318 40px);
+  --shadow: 0 16px 40px #34668718;
+}
+
+[data-visual="sci-fi"] .app-shell { position: relative; isolation: isolate; transition: none; }
+[data-visual="sci-fi"] .app-shell::before,
+[data-visual="sci-fi"] .app-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: var(--scene-opacity, 0.75);
+}
+[data-visual="sci-fi"] .app-shell::before { background: var(--scene); }
+[data-visual="sci-fi"] .app-shell::after { background: var(--scene-grid); }
+[data-visual="sci-fi"] .workspace { background: transparent; }
+[data-visual="sci-fi"] .titlebar {
+  position: relative;
+  z-index: 40;
+  background: color-mix(in srgb, var(--bg-deep) 86%, transparent);
+  border-bottom-color: var(--border-strong);
+  box-shadow: 0 1px 18px var(--accent-glow);
+}
+[data-visual="sci-fi"] .brand > svg { filter: drop-shadow(0 0 9px var(--accent-glow)); }
+[data-visual="sci-fi"] .brand strong { letter-spacing: 0.08em; }
+[data-visual="sci-fi"] .sidebar { background: color-mix(in srgb, var(--bg-deep) 76%, transparent); }
+[data-visual="sci-fi"] .nav-list { padding-top: 20px; }
+[data-visual="sci-fi"] .nav-item { width: calc(100% - 14px); margin: 0 7px 8px; border: 1px solid transparent; border-radius: var(--panel-radius); }
+[data-visual="sci-fi"] .nav-item--active {
+  border-color: var(--border-strong);
+  background: linear-gradient(90deg, var(--primary-soft), transparent);
+  color: var(--text);
+  box-shadow: inset 3px 0 var(--primary), 0 0 18px var(--accent-glow);
+}
+[data-visual="sci-fi"] .nav-item--active svg { color: var(--primary); filter: drop-shadow(0 0 5px var(--accent-glow)); }
+[data-visual="sci-fi"] .nav-item--active::before { display: none; }
+[data-visual="sci-fi"] .theme-trigger { padding-inline: 12px; }
+.theme-menu { width: 202px; max-height: calc(100vh - 80px); overflow: auto; }
+.theme-menu-swatch { width: 11px; height: 11px; border: 1px solid var(--swatch); border-radius: 3px; background: color-mix(in srgb, var(--swatch) 45%, transparent); }
+
+/* A segmented corner frame is purely decorative; unlike clip-path on the
+   panel itself it never clips dialogs, focus outlines or scrollable content. */
+[data-visual="sci-fi"] :is(.home-card, .settings-section, .tool-card, .tool-editor) {
+  position: relative;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--panel-radius);
+  background: var(--panel-fill);
+  box-shadow: inset 0 1px color-mix(in srgb, var(--primary) 14%, transparent), 0 8px 26px #0002;
+}
+[data-visual="sci-fi"] :is(.home-card, .settings-section, .tool-editor)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--primary), var(--primary)) left top / 22px 2px no-repeat,
+    linear-gradient(var(--primary), var(--primary)) left top / 2px 14px no-repeat,
+    linear-gradient(var(--primary), var(--primary)) right bottom / 22px 2px no-repeat,
+    linear-gradient(var(--primary), var(--primary)) right bottom / 2px 14px no-repeat;
+  filter: drop-shadow(0 0 4px var(--accent-glow));
+}
+[data-visual="sci-fi"] .home-card-heading h2 { letter-spacing: 0.04em; }
+[data-visual="sci-fi"] .home-search { background: var(--panel-fill); border-radius: 6px; }
+[data-visual="sci-fi"] .home-status { color: var(--text-secondary); }
+[data-visual="sci-fi"] :is(.quick-item > button:first-child, .quick-add) {
+  background: linear-gradient(135deg, var(--surface-strong), var(--bg-deep));
+  border-color: var(--border-strong);
+  border-radius: var(--panel-radius);
+  transition: border-color 160ms, box-shadow 160ms;
+}
+[data-visual="sci-fi"] :is(.quick-item > button:first-child, .quick-add):hover {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 20px var(--accent-glow);
+}
+[data-visual="sci-fi"] .quick-item svg { filter: drop-shadow(0 0 7px var(--accent-glow)); }
+[data-visual="sci-fi"] .home-page .quick-grid { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; }
+[data-visual="sci-fi"] .home-page :is(.quick-item > button:first-child, .quick-add) { min-height: clamp(72px, 12vh, 128px); }
+[data-visual="sci-fi"] .home-page :is(.quick-item > button:first-child > svg, .quick-add > svg) { width: 36px; height: 36px; }
+[data-visual="sci-fi"] .todo-row { border-bottom: 1px solid var(--border); }
+[data-visual="sci-fi"] .home-note-list > button { border-radius: 4px 12px 4px 4px; background: linear-gradient(120deg, var(--surface-strong), var(--bg-deep)); }
+[data-visual="sci-fi"] .home-note-list > button:hover { border-color: var(--primary); }
+[data-visual="sci-fi"] .home-page .countdown-item { margin-bottom: 6px; padding: 7px 9px; border: 1px solid var(--border-strong); border-radius: var(--panel-radius); background: color-mix(in srgb, var(--bg-deep) 75%, transparent); }
+[data-visual="sci-fi"] .countdown-clock { color: var(--primary); font-family: "Bahnschrift", "Cascadia Mono", Consolas, monospace; letter-spacing: 0.04em; text-shadow: 0 0 16px var(--accent-glow); }
+.digital-clock-art { display: none; }
+[data-visual="sci-fi"] .digital-clock-text { display: none; }
+[data-visual="sci-fi"] .digital-clock-art { display: inline-flex; align-items: center; gap: 0.07em; max-width: 100%; }
+[data-visual="sci-fi"] .digital-clock--long { font-size: 0.7em; }
+[data-visual="sci-fi"] .home-page .countdown-clock { font-size: clamp(15px, 1.3vw, 19px); }
+.digital-digit { width: 0.57em; height: 1em; flex-shrink: 0; }
+.segment-on { fill: currentColor; }
+.segment-off { fill: currentColor; opacity: 0.055; }
+.digital-colon { font-size: 0.9em; line-height: 1; }
+.digital-unit { font-size: 0.55em; white-space: pre; }
+[data-visual="sci-fi"] .countdown-item-tools .quiet-button:hover { color: var(--primary); }
+[data-visual="sci-fi"] .button--primary { background: linear-gradient(150deg, var(--primary-hover), var(--primary)); color: var(--primary-ink); border-color: var(--primary); box-shadow: 0 0 18px var(--accent-glow); }
+[data-visual="sci-fi"] .button--primary:disabled { box-shadow: none; }
+[data-visual="sci-fi"] :is(input, textarea, select):focus-visible,
+[data-visual="sci-fi"] button:focus-visible { outline-color: var(--primary); }
+[data-visual="sci-fi"] :is(.remote-modal, .service-drawer, .search-palette, .app-notice, .theme-menu) { background-color: var(--surface); border-color: var(--border-strong); }
+[data-visual="sci-fi"] :is(.service-stage, .remote-page, .notes-view, .tools-page, .settings-page) { background-color: transparent; }
+[data-visual="sci-fi"] :is(.log-panel, .remote-log-panel, .notes-sidebar) { background-color: var(--panel-fill); }
+[data-visual="sci-fi"] :is(.log-console, .remote-log-console, .note-content) { background-color: var(--bg-deep); }
+[data-visual="sci-fi"] ::selection { background: var(--primary); color: var(--primary-ink); }
+[data-visual="sci-fi"] * { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+
+/* Distinct material treatments, beyond a simple accent-color swap. */
+[data-skin="bridge"] .home-page .home-card { isolation: isolate; border-color: transparent; border-radius: 0; background: transparent; box-shadow: none; }
+[data-skin="bridge"] .home-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--panel-fill);
+  clip-path: polygon(0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px));
+}
+[data-skin="bridge"] .home-card::before {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--border-strong) 30%, var(--border-strong) 70%, var(--primary) 100%);
+  clip-path: polygon(evenodd, 0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px, 1px 13px, 1px calc(100% - 13px), 13px calc(100% - 1px), calc(100% - 13px) calc(100% - 1px), calc(100% - 1px) calc(100% - 13px), calc(100% - 1px) 13px, calc(100% - 13px) 1px, 13px 1px, 1px 13px);
+}
+[data-skin="bridge"] .home-page .countdown-item:first-child { border-color: var(--primary); box-shadow: inset 0 0 18px var(--accent-glow); }
+[data-skin="bridge"] .home-page .countdown-item { border-radius: 2px 14px 2px 14px; }
+[data-skin="cyber"] .home-card { box-shadow: -2px 0 0 color-mix(in srgb, var(--primary) 60%, transparent), 2px 0 0 color-mix(in srgb, var(--secondary-accent) 45%, transparent); }
+[data-skin="cyber"] .home-heading h1 { text-shadow: 2px 0 #ff78cf40, -2px 0 #67dfff40; }
+[data-skin="cyber"] .countdown-clock { color: var(--secondary-accent); }
+[data-skin="aurora"] .home-card { box-shadow: inset 0 1px #baffef25, 0 12px 30px #00171866; }
+[data-skin="aurora"] .home-card::before { opacity: 0.6; }
+[data-skin="mars"] .home-card-heading { border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+[data-skin="mars"] .home-card::before { background: repeating-linear-gradient(135deg, var(--primary) 0 4px, transparent 4px 8px) right top / 40px 4px no-repeat; }
+[data-skin="mars"] .countdown-clock { letter-spacing: 0.08em; }
+[data-skin="lunar"] :is(.home-card, .settings-section, .tool-card) { box-shadow: 0 4px 18px #496e8b12; }
+[data-skin="lunar"] .countdown-clock { text-shadow: none; }
+[data-skin="lunar"] .nav-item--active { box-shadow: inset 3px 0 var(--primary); }
+
+/* Static by default. Animate only a decorative light layer on explicit opt-in. */
+[data-visual="sci-fi"][data-motion="on"] .app-shell::after {
+  background-image: radial-gradient(ellipse at 75% 0%, var(--accent-glow), transparent 65%), var(--scene-grid);
+  animation: scene-breathe 12s ease-in-out infinite alternate;
+}
+@keyframes scene-breathe { from { opacity: calc(var(--scene-opacity) * 0.3); } to { opacity: var(--scene-opacity); } }
+@media (prefers-reduced-motion: reduce) {
+  [data-visual="sci-fi"][data-motion="on"] .app-shell::after { animation: none; }
+}
+
+/* Shared theme picker, also usable from a classic appearance. */
+.theme-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.theme-option { position: relative; min-width: 0; grid-template-columns: 58px minmax(0, 1fr) 20px; gap: 10px; padding: 13px; }
+.theme-option strong { font-size: 14px; }
+.theme-option small { font-size: 11px; }
+.theme-preview {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  grid-template-rows: 1fr 1.4fr;
+  width: 58px;
+  height: 48px;
+  gap: 4px;
+  padding: 7px;
+  border: 1px solid var(--preview-accent);
+  border-radius: 3px 9px 3px 9px;
+  background: radial-gradient(ellipse at 100% 0, color-mix(in srgb, var(--preview-secondary) 40%, transparent), transparent 80%), var(--preview-bg);
+}
+.theme-preview i { border: 1px solid var(--preview-accent); opacity: 0.8; }
+.theme-preview i:first-child { grid-column: 1 / -1; background: color-mix(in srgb, var(--preview-accent) 20%, transparent); }
+.theme-preview--cyber { border-radius: 0; box-shadow: 2px 0 var(--preview-secondary); }
+.theme-preview--aurora { border-radius: 12px; }
+.theme-preview--mars { border-radius: 0; border-top-width: 3px; }
+.theme-preview--lunar { border-radius: 6px; }
+.theme-effect-settings { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px 26px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+.theme-intensity > span { display: flex; justify-content: space-between; color: var(--text-secondary); font-size: 13px; }
+.theme-intensity output { color: var(--primary); font-variant-numeric: tabular-nums; }
+.theme-intensity input { width: 100%; margin: 12px 0 0; accent-color: var(--primary); cursor: pointer; }
+.theme-effect-settings .home-help { grid-column: 1 / -1; margin: 0; }
+
+@media (max-width: 1000px) {
+  .theme-options { grid-template-columns: 1fr; }
+  [data-visual="sci-fi"] .home-page .countdown-item { padding: 7px; }
+  .countdown-list { column-gap: 6px; }
+  .countdown-days strong { font-size: 14px; }
+}
+@media (max-height: 720px) {
+  [data-visual="sci-fi"] .home-page .countdown-item { padding: 6px; }
+}

@@ -1,0 +1,355 @@
+/* Approved 2026-11-09 glass set. Layout mechanics remain in console.css;
+   shared material tokens cover every route, tool detail and native-app dialog. */
+:root {
+  --glass-tint: #fff;
+  --glass-opacity: 70%;
+  --glass-blur: 24px;
+  --effective-glass-blur: var(--glass-blur);
+  --glass-border: #ffffffc4;
+  --glass-shadow: inset 0 1px 1px #ffffffed, 0 7px 22px #5578ae12;
+  --glass-surface: color-mix(in srgb, var(--glass-tint) var(--glass-opacity), transparent);
+  --glass-control: #ffffffa8;
+  --glass-radius: 20px;
+}
+:root[data-theme="light"] {
+  --text: #11203f;
+  --text-secondary: #465b7d;
+  --text-muted: #607394;
+  --border: #a8c5e66b;
+  --border-strong: #9bbce5;
+  --surface: #f9fcff;
+  --surface-soft: #f1f7fe;
+  --surface-strong: #eaf2fd;
+  --bg-deep: #f4f8ff;
+  --success: #008f58;
+}
+:root[data-theme="dark"] {
+  --bg: #0c1425;
+  --bg-deep: #111d30;
+  --surface: #162337;
+  --surface-soft: #152238;
+  --surface-strong: #1d2e47;
+  --border: #a6c3ec25;
+  --border-strong: #7c9fc271;
+  --text: #e6efff;
+  --text-secondary: #b7c9e5;
+  --text-muted: #97b0d2;
+  --glass-tint: #15243c;
+  --glass-border: #aecbf136;
+  --glass-control: #1b2a42c9;
+  --glass-shadow: inset 0 1px 1px #bdd8ff19, 0 8px 25px #02081725;
+}
+:root[data-material="liquid"] {
+  --glass-border: #ffffffed;
+  --glass-shadow: inset 0 2px 2px #fff, inset 1px 0 1px #fff9, inset 0 -1px 2px #8bb8eb55, 0 9px 24px #5a84bd22;
+  --glass-surface: color-mix(in srgb, var(--glass-tint) calc(var(--glass-opacity) - 12%), transparent);
+  --glass-radius: 23px;
+}
+:root[data-theme="dark"][data-material="liquid"] {
+  --glass-border: #bddaff61;
+  --glass-shadow: inset 0 2px 2px #d3e6ff30, inset 1px 0 1px #b5d9ff26, inset 0 -1px 2px #5579aa30, 0 9px 28px #0004;
+}
+:root[data-material="plain"] {
+  --glass-surface: var(--surface);
+  --glass-control: var(--bg-deep);
+  --glass-border: var(--border);
+  --glass-shadow: none;
+  --effective-glass-blur: 0px;
+  --glass-radius: 14px;
+}
+.app-shell { background: var(--bg); }
+.app-shell::before {
+  background: url("./assets/glass-wallpaper.png") center / cover no-repeat;
+  opacity: calc(.55 + var(--scene-opacity, .35) * .45);
+  filter: saturate(1.4);
+}
+.app-shell::after { display: none; }
+[data-theme="dark"] .app-shell::before { filter: brightness(.17) saturate(1.7); }
+[data-material="plain"] .app-shell::before { opacity: calc(var(--scene-opacity, .35) * .2); }
+[data-motion="on"] .app-shell::before { animation: glass-light 18s ease-in-out infinite alternate; }
+@keyframes glass-light { to { opacity: .7; } }
+.titlebar,.sidebar,.console-status {
+  background: color-mix(in srgb, var(--glass-tint) 42%, transparent);
+  backdrop-filter: blur(var(--effective-glass-blur)) saturate(125%);
+  border-color: var(--glass-border);
+}
+.titlebar { height: 62px; flex-basis: 62px; }
+.brand strong { letter-spacing: .05em; font-size: 24px; }
+.brand > svg { width: 35px; height: 35px; border-radius: 10px; }
+.app-body { grid-template-columns: 88px minmax(0,1fr); }
+.sidebar { margin: 6px 0 10px 6px; border: 1px solid var(--glass-border); border-radius: 22px; }
+.nav-list { gap: 13px; padding: 14px 7px; }
+.nav-item { height: 74px; min-height: 64px; border-radius: 14px; font-size: 13px; }
+.nav-item svg { width: 26px; height: 26px; }
+.nav-item--active { background: color-mix(in srgb, var(--primary) 10%, var(--glass-control)); border-color: var(--glass-border); box-shadow: var(--glass-shadow); }
+.global-search.home-search { height: 38px; border-radius: 12px; background: var(--glass-control); border-color: var(--glass-border); box-shadow: 0 2px 5px #5e7aab0c; }
+.console-status { height: 30px; font-size: 11px; }
+.button,.icon-button,.quiet-icon,.home-card-heading .quiet-button {
+  border-radius: 9px; min-height: 35px;
+}
+.button--secondary,.button--outline,.global-search,.mode-options button,.accent-options button {
+  background: var(--glass-control); box-shadow: inset 0 1px 1px #ffffff38, 0 2px 5px #5578ae0a;
+}
+.button--primary { box-shadow: inset 0 2px 3px #fff6, 0 3px 8px color-mix(in srgb,var(--primary) 18%,transparent); }
+button:disabled { box-shadow: none; }
+.search-field,.field-label input,.field-label select,.field-label textarea {
+  background: var(--glass-control); border-radius: 9px;
+}
+.home-card,.settings-section,.notes-list,.note-editor,.log-panel,.service-config,
+.remote-connection-bar,.remote-container-panel,.remote-log-panel,.monitor-panel,.monitor-metric,
+.tool-card,.github-filters,.github-results,.remote-modal,.search-palette,.service-action-menu,.theme-menu,.app-notice {
+  background: var(--glass-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(var(--effective-glass-blur)) saturate(125%);
+}
+/* Text canvases have a separate opaque surface so glass controls cannot reduce
+   the contrast of notes, terminal output or translated text. */
+.log-console,.remote-console,.command-output { background: color-mix(in srgb,var(--surface) 82%,transparent); }
+.note-content { background: transparent; }
+.translation-card textarea { background: color-mix(in srgb,var(--surface) 85%,transparent); border-radius: 12px; }
+.home-heading::after,.remote-heading::after { display: none; }
+.home-heading > div { display: flex; align-items: baseline; gap: 18px; }
+.home-page .home-heading p { display: block; color: var(--text-secondary); margin: 0; font-size: 13px; }
+.home-heading h1,.remote-heading h1,.settings-heading h1,.environment-header h1,.github-heading h1 { font-size: 28px; letter-spacing: -.025em; }
+.home-page,.tools-page,.remote-page,.settings-page,.github-page { padding: 22px; }
+.home-page { gap: 18px; grid-template-rows: 40px minmax(0,.75fr) minmax(0,1fr); }
+.home-page .home-card { padding: 19px; }
+.home-card h2,.home-page .home-card h2 { font-size: 17px; }
+.home-page .quick-grid { grid-auto-rows: clamp(80px,13vh,135px); }
+.home-page .quick-item > button:first-child,.home-page .quick-add {
+  background: var(--glass-control); border-color: var(--glass-border); border-radius: 16px; box-shadow: 0 5px 15px #6484b410;
+}
+.home-page .home-note-list > button { background: transparent; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; }
+.home-note-list strong { font-size: 15px; }
+.home-page .home-note-list small { font-size: 12px; }
+.home-page .countdown-clock { font-size: 15px; }
+.home-page .countdown-item { min-height: 52px; }
+.home-page .translation-card textarea { font-size: 14px; }
+.notes-workspace { grid-template-columns: 340px minmax(0,1fr); padding: 20px 22px; gap: 18px; }
+.notes-filters,.tool-categories { display: flex; gap: 10px; padding: 0 14px 14px; flex-shrink: 0; }
+.notes-filters button[aria-pressed="true"],.tool-categories button[aria-pressed="true"] { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); }
+.tool-categories { padding: 0; }
+.command-select { flex: 1; min-width: 0; padding: 0; border: 0; text-align: left; background: transparent; color: var(--text); font-weight: 650; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.command-item--selected { border-color: var(--primary); background: color-mix(in srgb,var(--primary) 6%,var(--glass-control)); }
+.command-selected-detail header { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.command-selected-detail h2 { flex: 1; font-size: 18px; margin: 0; }
+.command-selected-detail pre { max-height: 100px; margin: 13px 0 9px; padding: 13px; border: 1px solid var(--border); border-radius: 10px; background: var(--glass-control); overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font: 14px/1.7 Consolas,monospace; }
+.command-selected-detail p { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
+.command-output { min-height: 150px; }
+.note-list-item { border-radius: 12px; }
+.note-list-item--active { background: color-mix(in srgb,var(--primary) 9%,var(--glass-control)); }
+.note-title-row input { font-size: 29px; }
+.note-content { font-size: 15px; line-height: 2; }
+.note-editor { padding: 22px 28px 16px; }
+.tool-card { min-height: 98px; padding: 18px; }
+.tool-card strong { font-size: 15px; }
+.tool-card small { font-size: 12px; }
+.tool-card > svg { width: 32px; height: 32px; flex-shrink: 0; }
+.tool-card--active { border-color: var(--primary); }
+.settings-grid { gap: 18px; }
+.settings-section { padding: 22px; }
+.settings-grid .appearance-top { grid-template-columns: 1fr; }
+.appearance-preview { display: none; }
+.appearance-controls .mode-options { margin-bottom: 12px; }
+.theme-intensity { margin-top: 12px; }
+.motion-setting { margin-top: 12px; }
+.settings-section-title h2 { margin-bottom: 18px; }
+.remote-modal,.search-palette,.theme-menu,.app-notice,.service-action-menu {
+  background: color-mix(in srgb,var(--glass-tint) 95%,transparent);
+}
+.remote-modal-backdrop { backdrop-filter: blur(5px); }
+.remote-connection-bar { border-radius: 16px; }
+.monitor-panel > header { padding: 13px 16px; }
+.monitor-panel h2 { font-size: 15px; }
+.monitor-metric { padding: 17px; }
+.monitor-metric > strong { font-size: 28px; }
+.monitor-metric > small { font-size: 11px; }
+.remote-monitor-tabs button { font-size: 14px; }
+.log-console,.remote-console { font-size: 12px; }
+.service-stage .service-card {
+  background: var(--glass-control); border-color: var(--glass-border); border-radius: 16px; box-shadow: var(--glass-shadow);
+}
+.service-stage .service-card--selected { border-color: var(--primary); }
+.service-stage--full .service-card { min-height: 170px; padding: 15px; }
+.service-stage--full .service-card-select strong { font-size: 15px; }
+.service-stage--full .service-card-description { font-size: 13px; }
+.service-stage--full .service-card-status { font-size: 12px; }
+.service-stage .service-card-actions button { border-radius: 7px; }
+.services-page { display: flex; flex-direction: column; height: 100%; padding: 22px; gap: 18px; min-width: 0; }
+.services-page > .environment-header { flex-shrink: 0; }
+.services-page .environment-layout { flex: 1; height: auto; min-height: 0; padding: 0; }
+.environment-layout[data-axis="horizontal"] {
+  grid-template-columns: clamp(280px,var(--service-height,44%),calc(100% - 350px)) 12px minmax(338px,1fr);
+  grid-template-rows: minmax(0,1fr);
+}
+.environment-layout[data-axis="vertical"] { grid-template-columns: minmax(0,1fr); grid-template-rows: clamp(140px,var(--service-height,44%),calc(100% - 165px)) 10px minmax(155px,1fr); }
+.environment-layout[data-axis="horizontal"] .service-stage { padding: 14px; background: var(--glass-surface); border: 1px solid var(--glass-border); border-radius: var(--glass-radius); backdrop-filter: blur(var(--effective-glass-blur)); box-shadow: var(--glass-shadow); }
+.environment-layout[data-axis="horizontal"] .pane-divider { cursor: col-resize; }
+.environment-layout[data-axis="horizontal"] .pane-divider::after { width: 4px; height: 40px; left: 4px; top: 50%; transform: translateY(-50%); background: var(--border-strong); }
+.environment-layout[data-axis="horizontal"].environment-layout--resizing * { cursor: col-resize!important; }
+.environment-layout[data-axis="vertical"] .pane-divider::after { height: 3px; top: 4px; }
+.environment-layout .log-toolbar { flex-wrap: wrap; gap: 8px; }
+.environment-layout .log-toolbar select { width: 110px; }
+.environment-layout .log-toolbar .search-field { min-width: 120px; }
+.service-stage .service-config-fields { grid-template-columns: minmax(0,1fr); gap: 9px; }
+.service-stage--compact .service-config-fields { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+.environment-layout[data-axis="vertical"] .service-config-fields { grid-template-columns: minmax(0,1fr) minmax(0,1.3fr) 75px; }
+
+.github-page { height: 100%; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.github-heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.github-heading h1 { margin: 0; }
+.github-heading > div { display: flex; align-items: center; gap: 18px; }
+.github-heading p,.github-heading span { color: var(--text-secondary); font-size: 12px; margin: 0; }
+.github-filters { display: flex; gap: 14px; align-items: center; padding: 17px; flex-wrap: wrap; flex-shrink: 0; }
+.github-filters > .search-field { flex: 1; min-width: 200px; }
+.github-filters > label:not(.search-field) { display: flex; align-items: center; gap: 9px; font-size: 12px; color: var(--text-secondary); }
+.github-filters select { padding: 8px 10px; border: 1px solid var(--border); background: var(--glass-control); border-radius: 9px; color: var(--text); min-width: 110px; }
+.github-categories { display: flex; gap: 12px; flex-shrink: 0; }
+.github-categories button[aria-pressed="true"] { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); box-shadow: inset 0 2px 3px #fff6; }
+.github-results { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+.github-list { flex: 1; min-height: 0; overflow: auto; padding: 0 20px; }
+.github-repository { display: flex; gap: 17px; align-items: center; padding: 21px 0; border-bottom: 1px solid var(--border); }
+.github-repository:last-child { border-bottom: 0; }
+.github-repo-icon { width: 50px; height: 50px; flex-shrink: 0; background: var(--glass-control); border-radius: 14px; display: grid; place-items: center; color: var(--text-secondary); }
+.github-repo-icon img { width: 36px; height: 36px; object-fit: contain; border-radius: 7px; }
+.github-repo-icon img[hidden],.github-repo-icon span[hidden] { display: none; }
+.github-repo-content { flex: 1; min-width: 0; }
+.github-repo-name { max-width: 100%; border: 0; padding: 0; text-align: left; color: var(--primary); background: transparent; font-size: 17px; font-weight: 650; overflow-wrap: anywhere; cursor: pointer; }
+.github-repo-name:hover { text-decoration: underline; }
+.github-repo-content p { font-size: 13px; line-height: 1.7; color: var(--text-secondary); margin: 6px 0; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.github-topics { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 7px; }
+.github-topics > span { background: var(--primary-soft); color: var(--primary); border-radius: 6px; padding: 2px 6px; font-size: 10px; }
+.github-meta { display: flex; gap: 18px; flex-wrap: wrap; color: var(--text-secondary); font-size: 12px; }
+.github-meta span { display: inline-flex; align-items: center; gap: 6px; }
+.github-meta i { width: 9px; height: 9px; border-radius: 50%; }
+.github-repo-actions { display: flex; gap: 9px; flex-shrink: 0; }
+.github-empty { min-height: 230px; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; text-align: center; color: var(--text-secondary); padding: 30px; }
+.github-empty > svg { color: var(--primary); }
+.github-empty strong { color: var(--text); font-size: 18px; }
+.github-empty p { line-height: 1.8; font-size: 13px; max-width: 560px; margin: 0; }
+.github-pagination { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px; border-top: 1px solid var(--border); }
+.github-pagination small { color: var(--text-secondary); font-size: 11px; line-height: 1.7; }
+.github-pagination > div { display: flex; align-items: center; gap: 12px; white-space: nowrap; font-size: 12px; }
+.github-help { margin: 0; color: var(--text-muted); font-size: 11px; line-height: 1.6; flex-shrink: 0; }
+
+@media (min-width: 1251px) and (min-height: 761px) {
+  .notes-workspace { grid-template-columns: minmax(340px,.46fr) minmax(0,1fr); }
+  .notes-list-header > div span { font-size: 20px; }
+  .note-content { font-size: 17px; }
+  .notes-filters { padding-bottom: 16px; }
+  .tools-page:has(.command-workspace) .tools-grid { display: grid; }
+  .tools-page:has(.command-workspace) .tool-back { display: none; }
+  .tools-page .command-workspace { min-height: 350px; }
+  .tools-page .command-output { min-height: 90px; max-height: none; }
+  .command-library,.command-output-panel { padding: 18px; }
+  .command-library .command-item pre,.command-library .command-cwd { display: none; }
+  .command-item-actions { margin-top: 6px; }
+  .home-heading h1,.remote-heading h1,.settings-heading h1,.environment-header h1,.github-heading h1 { font-size: 34px; }
+  .home-page .home-card h2,.settings-section-title h2 { font-size: 19px; }
+  .button,.quiet-button,.global-search.home-search,.search-field input { font-size: 14px; }
+  .button { min-height: 38px; padding-inline: 15px; }
+  .home-page .quick-grid { grid-template-columns: repeat(auto-fit,minmax(100px,1fr)); }
+  .home-page .todo-row-content > span,.home-note-list strong { font-size: 15px; }
+  .setting-label,.field-label > span,.theme-intensity > span { font-size: 14px; }
+  .appearance-controls { display: grid; grid-template-columns: 112px minmax(0,1fr); align-items: center; gap: 12px; }
+  .appearance-controls .setting-label,.appearance-controls .mode-options { margin: 0; }
+  .appearance-controls .accent-options { align-self: stretch; }
+  .appearance-controls .accent-options button { padding: 9px 3px; gap: 6px; }
+  .theme-intensity { margin-top: 12px; }
+  .mode-options button,.accent-options button { font-size: 13px; }
+  .settings-grid .preference-grid { gap: 20px; }
+  .settings-grid .field-label input,.settings-grid .field-label select { font-size: 14px; }
+  .storage-directory-row input { font-size: 13px!important; }
+  .service-stage--full .service-card { min-height: 200px; }
+  .service-stage--full .service-card-status,.service-stage--full .service-card-state { font-size: 12px; }
+  .service-stage .service-card-actions button { font-size: 12px; padding: 6px 9px; }
+  .service-stage--full .service-card-select .service-card-port { font-size: 13px; }
+  .service-stage--full .service-brand { width: 40px; height: 40px; flex-basis: 40px; }
+  .service-stage--full .service-brand svg { width: 37px; height: 37px; }
+  .service-config-title { font-size: 14px; }
+  .service-config-fields small { font-size: 12px; }
+  .service-config-fields code { font-size: 12px; }
+  .service-stage--full .service-config-fields { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  .console-panel-title { font-size: 17px; }
+  .panel-tabs { height: 49px; min-height: 49px; }
+  .log-console,.remote-console { font-size: 13px; }
+  .notes-list-header span { font-size: 20px; }
+  .note-list-item strong { font-size: 16px; }
+  .note-list-item span { font-size: 13px; }
+  .monitor-panel table,.database-locks table { font-size: 13px; }
+  .monitor-panel th { font-size: 12px; }
+  .monitor-panel h2 { font-size: 18px; }
+  .monitor-metric > span { font-size: 15px; }
+  .monitor-metric > strong { font-size: 32px; }
+  .monitor-metric > small { font-size: 13px; }
+  .remote-connection-bar select { font-size: 14px; }
+  .remote-address,.remote-connection-state,.remote-monitor-toolbar { font-size: 13px; }
+  .monitor-overview-middle { grid-template-columns: minmax(0,1.8fr) minmax(0,1fr); }
+  .monitor-overview-middle .monitor-chart { min-height: 210px; }
+  .github-filters > label:not(.search-field),.github-filters select { font-size: 14px; }
+  .github-filters > .search-field { max-width: 42%; }
+  .github-repository { padding-block: 16px; }
+  .github-repo-name { font-size: 19px; }
+  .github-repo-content p { font-size: 15px; }
+  .github-meta { font-size: 13px; }
+  .github-topics > span { font-size: 11px; }
+  .github-help { font-size: 12px; }
+}
+
+@media (max-width: 1250px) {
+  .home-page { grid-template-rows: 34px minmax(0,.85fr) minmax(0,.8fr) minmax(0,1fr); }
+  .home-heading h1,.remote-heading h1,.settings-heading h1,.github-heading h1 { font-size: 23px; }
+  .home-page .home-card { padding: 13px; }
+  .home-page .home-card h2 { font-size: 14px; }
+  .home-page .countdown-item { min-height: 36px; }
+  .home-page .countdown-clock { font-size: 12px; }
+  .github-heading > div { gap: 10px; }
+  .github-heading p { display: none; }
+  .github-filters { gap: 10px; padding: 12px; }
+  .github-filters select { min-width: 90px; padding-inline: 5px; }
+  .github-repo-actions { flex-direction: column; }
+  .notes-workspace { grid-template-columns: 280px minmax(0,1fr); }
+}
+@media (max-width: 1000px), (max-height: 760px) {
+  .app-body { grid-template-columns: 72px minmax(0,1fr); }
+  .titlebar { height: 52px; flex-basis: 52px; }
+  .brand strong { font-size: 20px; }
+  .sidebar { border-radius: 17px; }
+  .nav-list { gap: 4px; padding: 8px 5px; }
+  .nav-item { min-height: 48px; height: 52px; gap: 4px; font-size: 11px; }
+  .nav-item svg { width: 22px; height: 22px; }
+  .home-page,.tools-page,.remote-page,.settings-page,.github-page,.services-page { padding: 13px; gap: 11px; }
+  .home-page .home-card { padding: 10px 12px; border-radius: 15px; }
+  .home-page .home-heading p { font-size: 11px; }
+  .home-page .home-heading > div { gap: 12px; }
+  .home-page .home-card h2 { font-size: 13px; }
+  .home-page .countdown-item { min-height: 33px; }
+  .home-page .translation-card textarea { font-size: 12px; }
+  .home-note-list strong { font-size: 12px; }
+  .home-page .home-note-list small { font-size: 10px; }
+  .notes-workspace { padding: 13px; gap: 11px; grid-template-columns: 240px minmax(0,1fr); }
+  .note-editor { padding: 15px 18px; }
+  .note-title-row input { font-size: 24px; }
+  .tool-card { min-height: 80px; padding: 12px; }
+  .tool-card strong { font-size: 13px; }
+  .tool-card small { font-size: 11px; }
+  .settings-section { padding: 15px; border-radius: 16px; }
+  .github-heading h1 { font-size: 21px; }
+  .github-filters > .search-field { min-width: 160px; }
+  .github-filters > label:not(.search-field) { gap: 6px; font-size: 11px; }
+  .github-categories { gap: 8px; }
+  .github-list { padding-inline: 14px; }
+  .github-repository { gap: 12px; padding-block: 17px; }
+  .github-repo-name { font-size: 15px; }
+  .github-repo-content p { font-size: 12px; }
+  .github-repo-icon { width: 38px; height: 38px; }
+  .github-pagination { padding: 10px 14px; gap: 10px; }
+  .github-pagination small { max-width: 52%; }
+  .monitor-metric { padding: 12px; }
+  .monitor-metric > strong { font-size: 22px; }
+  .console-status { height: 26px; font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { [data-motion="on"] .app-shell::before { animation: none; } }
+@supports not (backdrop-filter: blur(1px)) { :root { --glass-surface: var(--surface); } }
