@@ -8,6 +8,15 @@ const { PassThrough } = require("node:stream");
 const { CommandManager, validateCommand } = require("../electron/command-manager.cjs");
 const { CacheCleaner, AGE_MS, cacheCategories } = require("../electron/cache-cleaner.cjs");
 
+async function cacheFixture(prefix) {
+  // GitHub's Windows TEMP may itself be a junction. Put fixtures beneath its
+  // physical path; the production cleaner must still reject redirected roots.
+  const base = path.resolve(await fs.realpath(os.tmpdir()));
+  const directory = await fs.mkdtemp(path.join(base, prefix));
+  assert.equal(path.dirname(directory), base);
+  return directory;
+}
+
 test("saved commands validate cwd/shell and preserve streaming UTF-8 without unbounded output", () => {
   assert.throws(() => validateCommand({ name: "", command: "echo test" }), /名称/);
   assert.throws(() => validateCommand({ name: "test", command: "", shell: "cmd" }), /内容/);
@@ -44,8 +53,7 @@ test("real Windows PowerShell/CMD commands report exit code and stop their own p
 });
 
 test("cache cleaner only deletes scanned old regular files and rejects links, changes, protected data and stale tokens", async () => {
-  const directory = await fs.mkdtemp(path.join(os.tmpdir(), "qihang-cache-test-"));
-  assert.ok(path.resolve(directory).startsWith(path.resolve(os.tmpdir()) + path.sep));
+  const directory = await cacheFixture("qihang-cache-test-");
   try {
     const root = path.join(directory, "cache"); const protectedDir = path.join(root, "keep-app"); const outside = path.join(directory, "documents");
     await fs.mkdir(protectedDir, { recursive: true }); await fs.mkdir(outside);
@@ -80,8 +88,7 @@ test("cache cleaner only deletes scanned old regular files and rejects links, ch
 });
 
 test("cache revalidation skips an ancestor replaced with a directory junction", async () => {
-  const directory = await fs.mkdtemp(path.join(os.tmpdir(), "qihang-cache-link-test-"));
-  assert.ok(path.resolve(directory).startsWith(path.resolve(os.tmpdir()) + path.sep));
+  const directory = await cacheFixture("qihang-cache-link-test-");
   try {
     const root = path.join(directory, "cache"); const child = path.join(root, "child"); const outside = path.join(directory, "outside");
     await fs.mkdir(child, { recursive: true }); await fs.mkdir(outside); await fs.writeFile(path.join(child, "old.tmp"), "original"); await fs.writeFile(path.join(outside, "old.tmp"), "personal");
@@ -90,5 +97,23 @@ test("cache revalidation skips an ancestor replaced with a directory junction", 
     await fs.rename(child, path.join(root, "moved")); await fs.symlink(outside, child, "junction");
     const result = await cleaner.clean({ scanId: scan.scanId, categories: ["temp"] });
     assert.equal(result.deleted, 0); assert.equal(result.skipped, 1); assert.equal(await fs.readFile(path.join(outside, "old.tmp"), "utf8"), "personal");
+  } finally { await fs.rm(directory, { recursive: true, force: true }); }
+});
+
+test("cache roots beneath a redirected temporary ancestor remain excluded", async () => {
+  const directory = await cacheFixture("qihang-cache-ancestor-test-");
+  try {
+    const physical = path.join(directory, "physical");
+    const alias = path.join(directory, "redirected");
+    await fs.mkdir(path.join(physical, "cache"), { recursive: true });
+    const file = path.join(physical, "cache", "old.tmp");
+    await fs.writeFile(file, "untouched");
+    await fs.symlink(physical, alias, "junction");
+    const cleaner = new CacheCleaner({ categories: [{ id: "temp", name: "fixture", roots: [path.join(alias, "cache")] }], now: () => Date.now() + AGE_MS + 60000 });
+    const scan = await cleaner.scan();
+    assert.equal(scan.categories[0].count, 0);
+    assert.equal(scan.categories[0].skipped, 1);
+    assert.equal((await cleaner.clean({ scanId: scan.scanId, categories: ["temp"] })).deleted, 0);
+    assert.equal(await fs.readFile(file, "utf8"), "untouched");
   } finally { await fs.rm(directory, { recursive: true, force: true }); }
 });
