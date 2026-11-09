@@ -33,7 +33,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-portable.ps1
 
 ## 发布版本
 
-1. 更新 package.json / package-lock.json 中的版本，以及界面显示的版本说明；说明本次用户可见变化。
+1. 更新 package.json / package-lock.json 中的根包版本，以及界面显示的版本说明；说明本次用户可见变化。不要全局替换锁文件中的版本字符串，否则会破坏同名版本号的传递依赖。
 2. 执行验证，用干净源码构建安装包，并检查安装载荷不包含业务数据、目录指针、密码或备份。
 3. 提交到 main，创建对应的 `v<版本>` 标签并推送。
 4. 在 GitHub Releases 创建对应版本，附上安装包与变更说明。不要上传自己使用的便携目录、数据或日志。
